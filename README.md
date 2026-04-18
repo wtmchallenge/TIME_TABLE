@@ -25,8 +25,8 @@ Permet la création, la gestion et la diffusion des plannings hebdomadaires avec
 
 ## Installation
 ```bash
-git clone https://github.com/wtmchallenge/gestion-edt.git
-cd gestion-edt
+git clone https://github.com/wtmchallenge/TIME_TABLE.git
+cd TIME_TABLE
 cp env .env  # configurer DB_HOST, DB_USER, DB_PASS
 php spark serve
 ```
