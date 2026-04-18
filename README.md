@@ -38,7 +38,6 @@ Importer le fichier `database/schema.sql` dans MySQL avant de lancer.
 | Branche | Responsable | Contenu |
 |---|---|---|
 | `main` | — | Code stable validé |
-| `develop` | Les 2 | Intégration |
 | `feature/auth` | Bounyamine | Authentification |
 | `feature/gestion-ressources` | Nouga Ange | CRUD ressources |
 | `feature/construction-edt` | Bounyamine | Grille EDT |
