@@ -14,10 +14,10 @@ Permet la création, la gestion et la diffusion des plannings hebdomadaires avec
 - **Framework** : CodeIgniter 4 (PHP)
 - **Base de données** : MySQL
 - **Frontend** : Bootstrap 5, FullCalendar.js, Chart.js, jsPDF
-- **Outils** : GitHub, XAMPP
+- **Outils** : GitHub, XAMPP,
 
 ## Modules fonctionnels
-- ✅ Module Authentification (Login, rôles admin/enseignant)
+- ✅ Module Authentification (Login, rôles cd/enseignant)
 - ✅ Module Gestion des Ressources (CRUD enseignants, cours, salles, filières)
 - ✅ Module Construction de l'EDT (affectation, conflits, modifications)
 - ✅ Module Consultation & Diffusion (filtrage, export PDF ENSPM)
@@ -30,7 +30,3 @@ cd gestion-edt
 cp env .env  # configurer DB_HOST, DB_USER, DB_PASS
 php spark serve
 ```
-
-## Base de données
-Importer le fichier `database/schema.sql` dans MySQL avant de lancer.
-
