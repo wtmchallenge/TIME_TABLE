@@ -125,4 +125,5 @@ _modules/*
 /results/
 /phpunit*.xml
 
-public/WRITEPATH/session/*
+session/
+app/Database/Seeds/
