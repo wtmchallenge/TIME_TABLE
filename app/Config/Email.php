@@ -69,6 +69,24 @@ class Email extends BaseConfig
      */
     public string $SMTPCrypto = 'tls';
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->fromEmail      = env('email.fromEmail') ?? $this->fromEmail;
+        $this->fromName       = env('email.fromName') ?? $this->fromName;
+        $this->recipients     = env('email.recipients') ?? $this->recipients;
+        $this->protocol       = env('email.protocol') ?? $this->protocol;
+        $this->SMTPHost       = env('email.SMTPHost') ?? $this->SMTPHost;
+        $this->SMTPAuthMethod = env('email.SMTPAuthMethod') ?? $this->SMTPAuthMethod;
+        $this->SMTPUser       = env('email.SMTPUser') ?? $this->SMTPUser;
+        $this->SMTPPass       = env('email.SMTPPass') ?? $this->SMTPPass;
+        $this->SMTPPort       = (int) (env('email.SMTPPort') ?? $this->SMTPPort);
+        $this->SMTPTimeout    = (int) (env('email.SMTPTimeout') ?? $this->SMTPTimeout);
+        $this->SMTPKeepAlive  = filter_var(env('email.SMTPKeepAlive') ?? $this->SMTPKeepAlive, FILTER_VALIDATE_BOOLEAN);
+        $this->SMTPCrypto     = env('email.SMTPCrypto') ?? $this->SMTPCrypto;
+    }
+
     /**
      * Enable word-wrap
      */

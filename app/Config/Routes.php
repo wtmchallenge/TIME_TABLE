@@ -12,6 +12,10 @@ $routes->get('/', 'AuthController::login');
 // ── Module 1 : Authentification ───────────────────────────────────────────
 $routes->get('/login',  'AuthController::login');
 $routes->post('/login', 'AuthController::doLogin');
+$routes->get('/forgot-password', 'AuthController::forgotPassword');
+$routes->post('/forgot-password', 'AuthController::sendResetLink');
+$routes->get('/password-reset/(:segment)', 'AuthController::resetPassword/$1');
+$routes->post('/password-reset', 'AuthController::doResetPassword');
 $routes->get('/logout', 'AuthController::logout');
 
 // ── Zone protégée (filtre auth appliqué dans Filters.php) ─────────────────

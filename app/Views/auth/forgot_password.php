@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion — ENSPM Gestion EDT</title>
+    <title>Mot de passe oublié — ENSPM Gestion EDT</title>
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css') ?>">
     <style>
         *, *::before, *::after { box-sizing: border-box; }
@@ -18,17 +18,16 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
-        .login-card {
+        .card {
             background: #ffffff;
             border: 1px solid #e5e7eb;
             border-radius: 14px;
             padding: 2.5rem 2rem;
             width: 100%;
             max-width: 390px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
         }
 
-        /* Logo */
         .logo-row {
             display: flex;
             align-items: center;
@@ -45,37 +44,13 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .logo-icon svg {
-            width: 18px;
-            height: 18px;
-            fill: #ffffff;
-        }
-        .logo-school {
-            font-size: 11px;
-            color: #6b7280;
-            letter-spacing: 0.3px;
-        }
-        .logo-dept {
-            font-size: 13px;
-            font-weight: 600;
-            color: #111827;
-            margin-top: 1px;
-        }
+        .logo-icon svg { width: 18px; height: 18px; fill: #ffffff; }
+        .logo-school { font-size: 11px; color: #6b7280; letter-spacing: 0.3px; }
+        .logo-dept   { font-size: 13px; font-weight: 600; color: #111827; margin-top: 1px; }
 
-        /* Heading */
-        .login-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #111827;
-            margin: 0 0 4px;
-        }
-        .login-subtitle {
-            font-size: 13px;
-            color: #6b7280;
-            margin: 0 0 1.5rem;
-        }
+        .page-title    { font-size: 20px; font-weight: 700; color: #111827; margin: 0 0 4px; }
+        .page-subtitle { font-size: 13px; color: #6b7280; margin: 0 0 1.5rem; line-height: 1.5; }
 
-        /* Alerts */
         .alert {
             font-size: 13px;
             padding: 10px 12px;
@@ -90,7 +65,6 @@
         .alert-success { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
         .alert svg { flex-shrink: 0; margin-top: 1px; }
 
-        /* Form */
         .field { margin-bottom: 1rem; }
         .field label {
             display: block;
@@ -110,10 +84,7 @@
         }
         .input-wrap:focus-within {
             border-color: #0f2444;
-            box-shadow: 0 0 0 3px rgba(15, 36, 68, 0.1);
-        }
-        .input-wrap.is-invalid {
-            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(15,36,68,0.1);
         }
         .input-wrap .ico {
             padding: 0 10px;
@@ -133,22 +104,8 @@
             min-width: 0;
         }
         .input-wrap input::placeholder { color: #9ca3af; }
-        .input-wrap .btn-eye {
-            background: none;
-            border: none;
-            border-left: 1px solid #e5e7eb;
-            padding: 0 10px;
-            cursor: pointer;
-            color: #9ca3af;
-            display: flex;
-            align-items: center;
-            height: 38px;
-            transition: color 0.15s;
-        }
-        .input-wrap .btn-eye:hover { color: #374151; }
 
-        /* Submit */
-        .btn-login {
+        .btn-submit {
             width: 100%;
             background: #0f2444;
             color: #ffffff;
@@ -165,20 +122,22 @@
             justify-content: center;
             gap: 8px;
         }
-        .btn-login:hover  { background: #0a1a33; }
-        .btn-login:active { background: #071020; }
+        .btn-submit:hover  { background: #0a1a33; }
+        .btn-submit:active { background: #071020; }
 
-        /* Footer */
-        .forgot {
+        .back-link {
             text-align: center;
             margin-top: 1.25rem;
         }
-        .forgot a {
+        .back-link a {
             font-size: 13px;
             color: #6b7280;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
-        .forgot a:hover { color: #0f2444; text-decoration: underline; }
+        .back-link a:hover { color: #0f2444; }
 
         .footer-note {
             text-align: center;
@@ -192,7 +151,7 @@
 </head>
 <body>
 
-<div class="login-card">
+<div class="card">
 
     <!-- Logo -->
     <div class="logo-row">
@@ -207,9 +166,8 @@
         </div>
     </div>
 
-    <!-- Heading -->
-    <h1 class="login-title">Connexion</h1>
-    <p class="login-subtitle">Gestion des emplois du temps</p>
+    <h1 class="page-title">Mot de passe oublié</h1>
+    <p class="page-subtitle">Renseignez votre adresse email pour recevoir le lien de réinitialisation.</p>
 
     <!-- Alertes -->
     <?php if (session()->getFlashdata('error')): ?>
@@ -230,20 +188,20 @@
         <div class="alert alert-danger" role="alert">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;margin-top:1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
             <div>
-                <?php foreach (session()->getFlashdata('errors') as $e): ?>
-                    <div><?= esc($e) ?></div>
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                    <div><?= esc($error) ?></div>
                 <?php endforeach; ?>
             </div>
         </div>
     <?php endif; ?>
 
     <!-- Formulaire -->
-    <form action="<?= base_url('/login') ?>" method="POST" novalidate>
+    <form action="<?= base_url('/forgot-password') ?>" method="POST" novalidate>
         <?= csrf_field() ?>
 
         <div class="field">
             <label for="email">Adresse email</label>
-            <div class="input-wrap <?= session()->getFlashdata('errors') ? 'is-invalid' : '' ?>">
+            <div class="input-wrap">
                 <span class="ico">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
@@ -259,56 +217,24 @@
             </div>
         </div>
 
-        <div class="field">
-            <label for="password">Mot de passe</label>
-            <div class="input-wrap">
-                <span class="ico">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                    </svg>
-                </span>
-                <input type="password"
-                       id="password"
-                       name="password"
-                       placeholder="••••••••"
-                       autocomplete="current-password"
-                       required>
-                <button type="button" class="btn-eye" id="togglePwd" title="Afficher / masquer">
-                    <svg id="eyeIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <button type="submit" class="btn-login">
+        <button type="submit" class="btn-submit">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
-            Se connecter
+            Envoyer le lien
         </button>
     </form>
 
-    <div class="forgot">
-        <a href="<?= base_url('/forgot-password') ?>">Mot de passe oublié ?</a>
+    <div class="back-link">
+        <a href="<?= base_url('/login') ?>">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Retour à la connexion
+        </a>
     </div>
 
     <div class="footer-note">Année académique 2025 – 2026 &middot; ENSPM Maroua</div>
 
 </div>
-
-<script>
-    const pwd = document.getElementById('password');
-    const ico = document.getElementById('eyeIcon');
-
-    document.getElementById('togglePwd').addEventListener('click', () => {
-        const show = pwd.type === 'password';
-        pwd.type = show ? 'text' : 'password';
-        ico.innerHTML = show
-            ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>'
-            : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-    });
-</script>
 
 </body>
 </html>

@@ -20,6 +20,8 @@ class UserModel extends Model
         'password',
         'role',
         'actif',
+        'reset_token',
+        'reset_expires_at',
     ];
 
     // Dates
@@ -57,6 +59,37 @@ class UserModel extends Model
         return $this->where('email', $email)
                     ->where('actif', 1)
                     ->first();
+    }
+
+    public function setResetToken(string $email, string $token, string $expiresAt): bool
+    {
+        return (bool) $this->where('email', $email)
+                            ->set(["reset_token" => $token, "reset_expires_at" => $expiresAt])
+                            ->update();
+    }
+
+    public function findByResetToken(string $token): ?array
+    {
+        return $this->where('reset_token', $token)
+                    ->where('reset_expires_at >=', date('Y-m-d H:i:s'))
+                    ->first();
+    }
+
+    public function updatePasswordById(int $id, string $password): bool
+    {
+        return (bool) $this->update($id, [
+            'password'          => $password,
+            'reset_token'       => null,
+            'reset_expires_at'  => null,
+        ]);
+    }
+
+    public function clearResetToken(int $id): bool
+    {
+        return (bool) $this->update($id, [
+            'reset_token'      => null,
+            'reset_expires_at' => null,
+        ]);
     }
 
     /**
