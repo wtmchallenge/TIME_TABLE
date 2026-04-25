@@ -121,6 +121,7 @@ _modules/*
 
 # Visual Studio Code
 .vscode/
+.sixth/
 
 /results/
 /phpunit*.xml
