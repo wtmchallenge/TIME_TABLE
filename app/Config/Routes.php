@@ -78,7 +78,23 @@ $routes->group('disponibilites', ['filter' => 'auth'], function($routes) {
 });
 
 // Module 3 : Construction EDT
-// $routes->group('edt', ['filter' => 'auth'], function($routes) { ... });
+$routes->group('edt', ['filter' => 'auth'], function($routes) {
+ 
+    $routes->get('/',                        'EdtController::index');
+    $routes->get('semaine/(:segment)',       'EdtController::index/$1');
+ 
+    $routes->get('create',                   'EdtController::create');
+    $routes->post('store',                   'EdtController::store');
+ 
+    $routes->get('edit/(:num)',              'EdtController::edit/$1');
+    $routes->post('update/(:num)',           'EdtController::update/$1');
+ 
+    $routes->get('delete/(:num)',            'EdtController::delete/$1');
+ 
+    $routes->post('check-conflicts',         'EdtController::checkConflicts');
+ 
+    $routes->get('cours-par-filiere/(:num)', 'EdtController::coursParFiliere/$1');
+});
 
 // Module 4 : Consultation
 // $routes->get('/edt/consulter', 'EdtController::consulter', ['filter' => 'auth']);

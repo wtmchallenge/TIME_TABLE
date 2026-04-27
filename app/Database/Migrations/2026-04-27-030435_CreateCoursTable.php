@@ -9,6 +9,7 @@ class CreateCoursTable extends Migration {
             'intitule'       => ['type' => 'VARCHAR', 'constraint' => 150],
             'filiere_id'     => ['type' => 'INT'],           // lien vers filieres
             'volume_horaire' => ['type' => 'INT'],           // en heures
+            'code'           => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true],
             'created_at'     => ['type' => 'DATETIME', 'null' => true],
             'updated_at'     => ['type' => 'DATETIME', 'null' => true],
         ]);

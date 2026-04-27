@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'ENSPM — Gestion EDT') ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/crud.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css') ?>">
     <style>
@@ -329,17 +330,16 @@
             <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"/></svg>
             Filières
         </a>
+        <a href="<?= base_url('/disponibilites') ?>"
+           class="nav-link-item <?= str_starts_with(uri_string(), 'disponibilites') ? 'active' : '' ?>">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-8 9z"/></svg>
+            Disponibilités
+        </a>
 
-        <span class="nav-section">Emploi du Temps</span>
-        <a href="<?= base_url('/edt/construire') ?>"
-           class="nav-link-item <?= str_starts_with(uri_string(), 'edt/construire') ? 'active' : '' ?>">
+        <a href="<?= base_url('/edt/create') ?>"
+           class="nav-link-item <?= uri_string() === 'edt/create' ? 'active' : '' ?>">
             <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-4-4 1.41-1.41L12 14.17l6.59-6.59L20 9l-8 8z"/></svg>
             Construire un EDT
-        </a>
-        <a href="<?= base_url('/edt/consulter') ?>"
-           class="nav-link-item <?= str_starts_with(uri_string(), 'edt/consulter') ? 'active' : '' ?>">
-            <svg viewBox="0 0 24 24"><path d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>
-            Consulter / Filtrer
         </a>
         <a href="<?= base_url('/edt/export') ?>"
            class="nav-link-item <?= str_starts_with(uri_string(), 'edt/export') ? 'active' : '' ?>">
