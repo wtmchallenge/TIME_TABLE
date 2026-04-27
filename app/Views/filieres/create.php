@@ -1,96 +1,189 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-
 <style>
-.form-page-header {
-    display: flex; align-items: center; gap: 0.75rem;
-    margin-bottom: 2rem;
-}
-.back-btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    color: #5c6bc0; text-decoration: none; font-size: 0.875rem;
-    padding: 0.4rem 0.75rem; border-radius: 8px;
-    border: 1px solid #c5cae9; transition: all 0.15s;
-}
-.back-btn:hover { background: #e8eaf6; color: #3949ab; }
-.form-card {
-    max-width: 560px; margin: 0 auto;
-    background: white; border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(26,35,126,0.1);
-    overflow: hidden;
-}
-.form-card-header {
-    background: linear-gradient(135deg, #1a237e, #3949ab);
-    padding: 1.5rem 2rem; color: white;
-}
-.form-card-header h4 { margin: 0; font-size: 1.15rem; font-weight: 600; }
-.form-card-header p  { margin: 0.25rem 0 0; opacity: 0.75; font-size: 0.85rem; }
-.form-card-body { padding: 2rem; }
-.form-label-custom {
-    font-size: 0.82rem; font-weight: 700; color: #3949ab;
-    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;
-}
-.form-control-custom {
-    border: 1.5px solid #c5cae9; border-radius: 10px;
-    padding: 0.75rem 1rem; font-size: 0.95rem; transition: all 0.2s;
-}
-.form-control-custom:focus {
-    border-color: #3949ab; box-shadow: 0 0 0 3px rgba(57,73,171,0.12);
-    outline: none;
-}
-.btn-submit {
-    background: linear-gradient(135deg, #1a237e, #3949ab);
-    color: white; border: none; padding: 0.75rem 2rem;
-    border-radius: 10px; font-weight: 600; font-size: 0.9rem;
-    cursor: pointer; transition: all 0.2s;
-}
-.btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,35,126,0.3); }
-.btn-cancel-custom {
-    color: #757575; text-decoration: none; padding: 0.75rem 1.25rem;
-    border-radius: 10px; border: 1px solid #e0e0e0;
-    font-size: 0.9rem; transition: all 0.15s;
-}
-.btn-cancel-custom:hover { background: #f5f5f5; color: #424242; }
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+        font-size: .8rem;
+        color: var(--gray-500);
+        text-decoration: none;
+        margin-bottom: 1.25rem;
+        transition: color .13s;
+    }
+
+    .back-link:hover {
+        color: var(--blue-500);
+    }
+
+    .back-link svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+    }
+
+    .form-card {
+        background: #fff;
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        max-width: 520px;
+    }
+
+    .form-card-head {
+        padding: 1.1rem 1.5rem;
+        border-bottom: 1px solid var(--gray-100);
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+    }
+
+    .form-card-head svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--blue-500);
+    }
+
+    .form-card-head h2 {
+        font-size: .97rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin: 0;
+    }
+
+    .form-card-body {
+        padding: 1.5rem;
+    }
+
+    .f-label {
+        display: block;
+        font-size: .75rem;
+        font-weight: 700;
+        color: var(--gray-700);
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        margin-bottom: .45rem;
+    }
+
+    .f-input {
+        width: 100%;
+        padding: .6rem .875rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 7px;
+        font-size: .875rem;
+        color: var(--gray-900);
+        font-family: inherit;
+        transition: border-color .13s, box-shadow .13s;
+        box-sizing: border-box;
+    }
+
+    .f-input:focus {
+        outline: none;
+        border-color: var(--blue-400);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+    }
+
+    .form-card-foot {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid var(--gray-100);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btn-cancel-app {
+        display: inline-flex;
+        align-items: center;
+        padding: .45rem .9rem;
+        background: none;
+        border: 1px solid var(--gray-200);
+        border-radius: 7px;
+        font-size: .82rem;
+        font-weight: 500;
+        color: var(--gray-600);
+        text-decoration: none;
+        transition: all .13s;
+    }
+
+    .btn-cancel-app:hover {
+        background: var(--gray-100);
+        color: var(--gray-900);
+    }
+
+    .btn-submit-app {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .45rem 1.1rem;
+        background: var(--blue-500);
+        color: #fff;
+        border: none;
+        border-radius: 7px;
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .13s;
+    }
+
+    .btn-submit-app:hover {
+        background: var(--blue-600);
+    }
+
+    .btn-submit-app svg {
+        width: 14px;
+        height: 14px;
+        fill: #fff;
+    }
+
+    .err-box {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 7px;
+        padding: .75rem 1rem;
+        margin-bottom: 1rem;
+        font-size: .82rem;
+        color: #b91c1c;
+    }
 </style>
 
-<div class="form-page-header">
-    <a href="/filieres" class="back-btn">← Retour</a>
-    <span style="color:#9e9e9e;font-size:0.85rem">/ Nouvelle filière</span>
-</div>
+<a href="<?= base_url('/filieres') ?>" class="back-link">
+    <svg viewBox="0 0 24 24">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+    </svg>
+    Retour aux filières
+</a>
 
 <div class="form-card">
-    <div class="form-card-header">
-        <h4>🎓 Ajouter une filière</h4>
-        <p>Département INFOTEL — ENSPM</p>
+    <div class="form-card-head">
+        <svg viewBox="0 0 24 24">
+            <path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z" />
+        </svg>
+        <h2>Ajouter une filière</h2>
     </div>
     <div class="form-card-body">
-
-        <?php if(session('errors')): ?>
-            <div class="alert rounded-3 border-0 mb-3" style="background:#ffebee;color:#c62828;font-size:0.875rem">
-                <?php foreach(session('errors') as $error): ?>
-                    <div>⚠️ <?= $error ?></div>
-                <?php endforeach; ?>
+        <?php if (session('errors')): ?>
+            <div class="err-box">
+                <?php foreach (session('errors') as $e): ?><div>• <?= $e ?></div><?php endforeach; ?>
             </div>
         <?php endif; ?>
-
-        <form action="/filieres/store" method="POST">
+        <form action="<?= base_url('/filieres/store') ?>" method="POST" id="frm">
             <?= csrf_field() ?>
-            <div class="mb-4">
-                <label class="form-label-custom d-block">Nom de la filière</label>
-                <input type="text"
-                       name="nom"
-                       class="form-control form-control-custom w-100"
-                       value="<?= old('nom') ?>"
-                       placeholder="Ex: Informatique et Télécommunications"
-                       autofocus>
+            <div class="mb-3">
+                <label class="f-label">Nom de la filière</label>
+                <input type="text" name="nom" class="f-input"
+                    value="<?= old('nom') ?>"
+                    placeholder="Ex : Informatique et Télécommunications"
+                    autofocus>
             </div>
-            <div class="d-flex justify-content-between align-items-center pt-2" style="border-top:1px solid #f0f0f7">
-                <a href="/filieres" class="btn-cancel-custom">Annuler</a>
-                <button type="submit" class="btn-submit">✓ Enregistrer</button>
-            </div>
-        </form>
-
     </div>
+    <div class="form-card-foot">
+        <a href="<?= base_url('/filieres') ?>" class="btn-cancel-app">Annuler</a>
+        <button type="submit" form="frm" class="btn-submit-app">
+            <svg viewBox="0 0 24 24">
+                <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" />
+            </svg>
+            Enregistrer
+        </button>
+    </div>
+    </form>
 </div>
-
 <?= $this->endSection() ?>

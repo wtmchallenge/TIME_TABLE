@@ -1,62 +1,48 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-<style>
-.back-btn{display:inline-flex;align-items:center;gap:5px;color:#388e3c;text-decoration:none;font-size:.875rem;padding:.4rem .75rem;border-radius:8px;border:1px solid #a5d6a7;transition:all .15s;}.back-btn:hover{background:#e8f5e9;}
-.form-card{max-width:600px;margin:0 auto;background:white;border-radius:16px;box-shadow:0 4px 24px rgba(27,94,32,.1);overflow:hidden;}
-.form-card-header{background:linear-gradient(135deg,#1b5e20,#388e3c);padding:1.5rem 2rem;color:white;}
-.form-card-header h4{margin:0;font-size:1.15rem;font-weight:600;}
-.form-card-header p{margin:.25rem 0 0;opacity:.75;font-size:.85rem;}
-.form-card-body{padding:2rem;}
-.lbl{font-size:.8rem;font-weight:700;color:#2e7d32;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.4rem;}
-.inp{border:1.5px solid #c8e6c9;border-radius:10px;padding:.7rem 1rem;font-size:.95rem;width:100%;transition:all .2s;box-sizing:border-box;}
-.inp:focus{border-color:#388e3c;box-shadow:0 0 0 3px rgba(56,142,60,.12);outline:none;}
-.btn-submit{background:linear-gradient(135deg,#1b5e20,#388e3c);color:white;border:none;padding:.75rem 2rem;border-radius:10px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;}
-.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(27,94,32,.3);}
-.btn-cancel{color:#757575;text-decoration:none;padding:.75rem 1.25rem;border-radius:10px;border:1px solid #e0e0e0;font-size:.9rem;}
-.btn-cancel:hover{background:#f5f5f5;}
-</style>
 
-<div class="mb-3 d-flex align-items-center gap-2">
-    <a href="/enseignants" class="back-btn">← Retour</a>
-    <span style="color:#9e9e9e;font-size:.85rem">/ Nouvel enseignant</span>
-</div>
+<a href="<?= base_url('/enseignants') ?>" class="back-link">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Retour aux enseignants
+</a>
 
 <div class="form-card">
-    <div class="form-card-header">
-        <h4>👨‍🏫 Ajouter un enseignant</h4>
-        <p>Département INFOTEL — ENSPM</p>
+    <div class="form-card-head">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <h2>Ajouter un enseignant</h2>
     </div>
+    <form action="<?= base_url('/enseignants/store') ?>" method="POST" id="frm">
+    <?= csrf_field() ?>
     <div class="form-card-body">
         <?php if(session('errors')): ?>
-            <div class="rounded-3 p-3 mb-3" style="background:#ffebee;color:#c62828;font-size:.875rem">
-                <?php foreach(session('errors') as $err): ?><div>⚠️ <?= $err ?></div><?php endforeach; ?>
-            </div>
+            <div class="err-box"><?php foreach(session('errors') as $e): ?><div>• <?= $e ?></div><?php endforeach; ?></div>
         <?php endif; ?>
-        <form action="/enseignants/store" method="POST">
-            <?= csrf_field() ?>
-            <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label class="lbl">Prénom</label>
-                    <input type="text" name="prenom" class="inp" value="<?= old('prenom') ?>" placeholder="Ex: Jean" autofocus>
-                </div>
-                <div class="col-md-6">
-                    <label class="lbl">Nom</label>
-                    <input type="text" name="nom" class="inp" value="<?= old('nom') ?>" placeholder="Ex: Dupont">
-                </div>
+        <div class="row-2col mb-3">
+            <div>
+                <label class="f-label">Prénom</label>
+                <input type="text" name="prenom" class="f-input" value="<?= old('prenom') ?>" placeholder="Jean" autofocus>
             </div>
-            <div class="mb-3">
-                <label class="lbl">Adresse email</label>
-                <input type="email" name="email" class="inp" value="<?= old('email') ?>" placeholder="Ex: j.dupont@enspm.cm">
+            <div>
+                <label class="f-label">Nom</label>
+                <input type="text" name="nom" class="f-input" value="<?= old('nom') ?>" placeholder="Dupont">
             </div>
-            <div class="mb-4">
-                <label class="lbl">Spécialité</label>
-                <input type="text" name="specialite" class="inp" value="<?= old('specialite') ?>" placeholder="Ex: Réseaux et Télécommunications">
-            </div>
-            <div class="d-flex justify-content-between align-items-center pt-2" style="border-top:1px solid #f1f8e9">
-                <a href="/enseignants" class="btn-cancel">Annuler</a>
-                <button type="submit" class="btn-submit">✓ Enregistrer</button>
-            </div>
-        </form>
+        </div>
+        <div class="mb-3">
+            <label class="f-label">Email</label>
+            <input type="email" name="email" class="f-input" value="<?= old('email') ?>" placeholder="j.dupont@enspm.cm">
+        </div>
+        <div>
+            <label class="f-label">Spécialité</label>
+            <input type="text" name="specialite" class="f-input" value="<?= old('specialite') ?>" placeholder="Ex : Réseaux et Télécommunications">
+        </div>
     </div>
+    <div class="form-card-foot">
+        <a href="<?= base_url('/enseignants') ?>" class="btn-cancel-app">Annuler</a>
+        <button type="submit" class="btn-submit-app">
+            <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+            Enregistrer
+        </button>
+    </div>
+    </form>
 </div>
 <?= $this->endSection() ?>
