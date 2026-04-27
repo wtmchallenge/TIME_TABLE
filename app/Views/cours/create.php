@@ -1,63 +1,47 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-<style>
-.back-btn{display:inline-flex;align-items:center;gap:5px;color:#00838f;text-decoration:none;font-size:.875rem;padding:.4rem .75rem;border-radius:8px;border:1px solid #80deea;transition:all .15s;}.back-btn:hover{background:#e0f7fa;}
-.form-card{max-width:580px;margin:0 auto;background:white;border-radius:16px;box-shadow:0 4px 24px rgba(0,96,100,.1);overflow:hidden;}
-.form-card-header{background:linear-gradient(135deg,#006064,#00838f);padding:1.5rem 2rem;color:white;}
-.form-card-header h4{margin:0;font-size:1.15rem;font-weight:600;}
-.form-card-header p{margin:.25rem 0 0;opacity:.75;font-size:.85rem;}
-.form-card-body{padding:2rem;}
-.lbl{font-size:.8rem;font-weight:700;color:#00838f;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.4rem;}
-.inp,.sel{border:1.5px solid #b2ebf2;border-radius:10px;padding:.7rem 1rem;font-size:.95rem;width:100%;transition:all .2s;box-sizing:border-box;background:white;}
-.inp:focus,.sel:focus{border-color:#00838f;box-shadow:0 0 0 3px rgba(0,131,143,.12);outline:none;}
-.btn-submit{background:linear-gradient(135deg,#006064,#00838f);color:white;border:none;padding:.75rem 2rem;border-radius:10px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;}
-.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,96,100,.3);}
-.btn-cancel{color:#757575;text-decoration:none;padding:.75rem 1.25rem;border-radius:10px;border:1px solid #e0e0e0;font-size:.9rem;}
-.btn-cancel:hover{background:#f5f5f5;}
-</style>
 
-<div class="mb-3 d-flex align-items-center gap-2">
-    <a href="/cours" class="back-btn">← Retour</a>
-    <span style="color:#9e9e9e;font-size:.85rem">/ Nouveau cours</span>
-</div>
+<a href="<?= base_url('/cours') ?>" class="back-link">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Retour aux cours
+</a>
 
 <div class="form-card">
-    <div class="form-card-header">
-        <h4>📖 Ajouter un cours</h4>
-        <p>Département INFOTEL — ENSPM</p>
+    <div class="form-card-head">
+        <svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>
+        <h2>Ajouter un cours</h2>
     </div>
+    <form action="<?= base_url('/cours/store') ?>" method="POST" id="frm">
+    <?= csrf_field() ?>
     <div class="form-card-body">
         <?php if(session('errors')): ?>
-            <div class="rounded-3 p-3 mb-3" style="background:#ffebee;color:#c62828;font-size:.875rem">
-                <?php foreach(session('errors') as $err): ?><div>⚠️ <?= $err ?></div><?php endforeach; ?>
-            </div>
+            <div class="err-box"><?php foreach(session('errors') as $e): ?><div>• <?= $e ?></div><?php endforeach; ?></div>
         <?php endif; ?>
-        <form action="/cours/store" method="POST">
-            <?= csrf_field() ?>
-            <div class="mb-3">
-                <label class="lbl">Intitulé du cours</label>
-                <input type="text" name="intitule" class="inp" value="<?= old('intitule') ?>" placeholder="Ex: Développement Web" autofocus>
-            </div>
-            <div class="mb-3">
-                <label class="lbl">Filière</label>
-                <select name="filiere_id" class="sel">
-                    <option value="">— Choisir une filière —</option>
-                    <?php foreach($filieres as $f): ?>
-                        <option value="<?= $f['id'] ?>" <?= old('filiere_id') == $f['id'] ? 'selected' : '' ?>>
-                            <?= esc($f['nom']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label class="lbl">Volume horaire total (heures)</label>
-                <input type="number" name="volume_horaire" class="inp" value="<?= old('volume_horaire') ?>" placeholder="Ex: 90" min="1">
-            </div>
-            <div class="d-flex justify-content-between align-items-center pt-2" style="border-top:1px solid #e0f7fa">
-                <a href="/cours" class="btn-cancel">Annuler</a>
-                <button type="submit" class="btn-submit">✓ Enregistrer</button>
-            </div>
-        </form>
+        <div class="mb-3">
+            <label class="f-label">Intitulé du cours</label>
+            <input type="text" name="intitule" class="f-input" value="<?= old('intitule') ?>" placeholder="Ex : Développement Web" autofocus>
+        </div>
+        <div class="mb-3">
+            <label class="f-label">Filière</label>
+            <select name="filiere_id" class="f-select">
+                <option value="">— Choisir une filière —</option>
+                <?php foreach($filieres as $f): ?>
+                    <option value="<?= $f['id'] ?>" <?= old('filiere_id')==$f['id']?'selected':'' ?>><?= esc($f['nom']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label class="f-label">Volume horaire total (heures)</label>
+            <input type="number" name="volume_horaire" class="f-input" value="<?= old('volume_horaire') ?>" placeholder="Ex : 90" min="1">
+        </div>
     </div>
+    <div class="form-card-foot">
+        <a href="<?= base_url('/cours') ?>" class="btn-cancel-app">Annuler</a>
+        <button type="submit" class="btn-submit-app">
+            <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+            Enregistrer
+        </button>
+    </div>
+    </form>
 </div>
 <?= $this->endSection() ?>

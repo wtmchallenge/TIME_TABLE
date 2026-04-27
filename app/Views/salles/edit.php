@@ -1,54 +1,42 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-<style>
-.back-btn{display:inline-flex;align-items:center;gap:5px;color:#5c6bc0;text-decoration:none;font-size:.875rem;padding:.4rem .75rem;border-radius:8px;border:1px solid #c5cae9;transition:all .15s;}.back-btn:hover{background:#e8eaf6;}
-.form-card{max-width:500px;margin:0 auto;background:white;border-radius:16px;box-shadow:0 4px 24px rgba(26,35,126,.1);overflow:hidden;}
-.form-card-header{background:linear-gradient(135deg,#e65100,#f57c00);padding:1.5rem 2rem;color:white;}
-.form-card-header h4{margin:0;font-size:1.15rem;font-weight:600;}
-.form-card-header p{margin:.25rem 0 0;opacity:.8;font-size:.85rem;}
-.form-card-body{padding:2rem;}
-.lbl{font-size:.8rem;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.4rem;}
-.inp{border:1.5px solid #ffe0b2;border-radius:10px;padding:.7rem 1rem;font-size:.95rem;width:100%;transition:all .2s;box-sizing:border-box;}
-.inp:focus{border-color:#f57c00;box-shadow:0 0 0 3px rgba(245,124,0,.12);outline:none;}
-.current-value{background:#fff8e1;border-radius:8px;padding:.6rem 1rem;font-size:.85rem;color:#795548;margin-bottom:1rem;border:1px solid #ffe082;}
-.btn-submit{background:linear-gradient(135deg,#e65100,#f57c00);color:white;border:none;padding:.75rem 2rem;border-radius:10px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;}
-.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(230,81,0,.3);}
-.btn-cancel{color:#757575;text-decoration:none;padding:.75rem 1.25rem;border-radius:10px;border:1px solid #e0e0e0;font-size:.9rem;}
-.btn-cancel:hover{background:#f5f5f5;}
-</style>
 
-<div class="mb-3 d-flex align-items-center gap-2">
-    <a href="/salles" class="back-btn">← Retour</a>
-    <span style="color:#9e9e9e;font-size:.85rem">/ Modifier salle</span>
-</div>
+<a href="<?= base_url('/salles') ?>" class="back-link">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Retour aux salles
+</a>
 
 <div class="form-card">
-    <div class="form-card-header">
-        <h4>✏️ Modifier la salle</h4>
-        <p>ID #<?= $salle['id'] ?> — <?= esc($salle['nom']) ?></p>
+    <div class="form-card-head">
+        <svg viewBox="0 0 24 24" style="fill:#b45309"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        <h2>Modifier la salle</h2>
     </div>
+    <form action="<?= base_url('/salles/update/'.$salle['id']) ?>" method="POST" id="frm">
+    <?= csrf_field() ?>
     <div class="form-card-body">
         <?php if(session('errors')): ?>
-            <div class="rounded-3 p-3 mb-3" style="background:#ffebee;color:#c62828;font-size:.875rem">
-                <?php foreach(session('errors') as $err): ?><div>⚠️ <?= $err ?></div><?php endforeach; ?>
-            </div>
+            <div class="err-box"><?php foreach(session('errors') as $e): ?><div>• <?= $e ?></div><?php endforeach; ?></div>
         <?php endif; ?>
-        <div class="current-value">📌 Actuel : <strong><?= esc($salle['nom']) ?></strong> — <?= $salle['capacite'] ?> places</div>
-        <form action="/salles/update/<?= $salle['id'] ?>" method="POST">
-            <?= csrf_field() ?>
-            <div class="mb-3">
-                <label class="lbl">Nom de la salle</label>
-                <input type="text" name="nom" class="inp" value="<?= old('nom', $salle['nom']) ?>">
-            </div>
-            <div class="mb-4">
-                <label class="lbl">Capacité (places)</label>
-                <input type="number" name="capacite" class="inp" value="<?= old('capacite', $salle['capacite']) ?>" min="1">
-            </div>
-            <div class="d-flex justify-content-between align-items-center pt-2" style="border-top:1px solid #fff3e0">
-                <a href="/salles" class="btn-cancel">Annuler</a>
-                <button type="submit" class="btn-submit">💾 Enregistrer</button>
-            </div>
-        </form>
+        <div class="current-val">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Actuel : <strong><?= esc($salle['nom']) ?></strong> — <?= $salle['capacite'] ?> places
+        </div>
+        <div class="mb-3">
+            <label class="f-label">Nom de la salle</label>
+            <input type="text" name="nom" class="f-input" value="<?= old('nom',$salle['nom']) ?>">
+        </div>
+        <div>
+            <label class="f-label">Capacité (places)</label>
+            <input type="number" name="capacite" class="f-input" value="<?= old('capacite',$salle['capacite']) ?>" min="1">
+        </div>
     </div>
+    <div class="form-card-foot">
+        <a href="<?= base_url('/salles') ?>" class="btn-cancel-app">Annuler</a>
+        <button type="submit" class="btn-submit-app">
+            <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+            Enregistrer
+        </button>
+    </div>
+    </form>
 </div>
 <?= $this->endSection() ?>
