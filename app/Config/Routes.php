@@ -97,8 +97,10 @@ $routes->group('edt', ['filter' => 'auth'], function($routes) {
 });
 
 // Module 4 : Consultation
-// $routes->get('/edt/consulter', 'EdtController::consulter', ['filter' => 'auth']);
-// $routes->get('/edt/export',    'EdtController::export',    ['filter' => 'auth']);
+$routes->group('consultation', ['filter' => 'auth'], function($routes) {
+    $routes->get('/',    'ConsultationController::index');
+    $routes->get('pdf',  'ConsultationController::exportPdf');
+});
 
 // Module 5 : Dashboard statistiques
 // $routes->get('/statistiques', 'StatController::index', ['filter' => 'auth']);

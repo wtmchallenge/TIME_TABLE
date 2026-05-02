@@ -12,20 +12,20 @@ class CreateEmploisDuTempsTable extends Migration
     {
         $this->forge->addField([
             'id'            => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'semaine'       => ['type' => 'DATE'],                 // Lundi de la semaine ex: 2026-04-27
-            'filiere_id'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'cours_id'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'enseignant_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'salle_id'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'jour'         => [
+            'semaine'       => ['type' => 'DATE'],
+            'filiere_id'    => ['type' => 'INT', 'constraint' => 11],
+            'cours_id'      => ['type' => 'INT', 'constraint' => 11],
+            'enseignant_id' => ['type' => 'INT', 'constraint' => 11],
+            'salle_id'      => ['type' => 'INT', 'constraint' => 11],
+            'jour'          => [
                 'type'       => 'ENUM',
                 'constraint' => ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
             ],
-            'heure_debut'  => ['type' => 'TIME'],                  // ex: 07:30:00
-            'heure_fin'    => ['type' => 'TIME'],                  // ex: 09:30:00
-            'created_by'   => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
-            'created_at'   => ['type' => 'DATETIME', 'null' => true],
-            'updated_at'   => ['type' => 'DATETIME', 'null' => true],
+            'heure_debut'   => ['type' => 'TIME'],
+            'heure_fin'     => ['type' => 'TIME'],
+            'created_by'    => ['type' => 'INT', 'constraint' => 11, 'null' => true],
+            'created_at'    => ['type' => 'DATETIME', 'null' => true],
+            'updated_at'    => ['type' => 'DATETIME', 'null' => true],
         ]);
 
         $this->forge->addKey('id', true);
