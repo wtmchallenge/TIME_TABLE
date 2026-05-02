@@ -1,3 +1,4 @@
+
 <?php $this->extend('layouts/main'); ?>
 <?php $this->section('content'); ?>
 
@@ -11,9 +12,15 @@
     </h4>
 
     <?php if ($isAdmin): ?>
+    <div class="d-flex gap-2 flex-wrap">
       <a href="/edt/create?semaine=<?= $semaine ?>" class="btn btn-success btn-sm">
         <i class="bi bi-plus-circle me-1"></i> Ajouter un créneau
       </a>
+      <a href="/consultation/pdf?semaine=<?= $semaine ?>&filiere_id=<?= $filiere_id_actif ?>&salle_id=<?= $salle_id_actif ?>"
+         class="btn btn-danger btn-sm" target="_blank">
+        <i class="bi bi-file-pdf me-1"></i> Exporter PDF
+      </a>
+    </div>
     <?php endif; ?>
   </div>
 
@@ -50,7 +57,6 @@
       Semaine suiv. <i class="bi bi-chevron-right"></i>
     </a>
 
-    <!-- Semaines déjà planifiées -->
     <?php if (!empty($semaines_dispo)): ?>
     <select class="form-select form-select-sm" style="width:220px"
             onchange="if(this.value) window.location='/edt/semaine/'+this.value">
@@ -99,11 +105,11 @@
   <!-- ── Grille EDT ──────────────────────────────────────────────────── -->
   <div class="table-responsive">
     <table class="table table-bordered table-sm edt-grid align-middle text-center">
-      <thead class="table-dark">
+      <thead>
         <tr>
-          <th style="width:100px">Horaires</th>
+          <th class="edt-th" style="width:100px">Horaires</th>
           <?php foreach ($jours as $jour): ?>
-            <th><?= $jour ?></th>
+            <th class="edt-th"><?= $jour ?></th>
           <?php endforeach; ?>
         </tr>
       </thead>
@@ -111,58 +117,54 @@
         <?php foreach ($creneaux_horaires as $debut => $fin): ?>
           <tr>
             <!-- Cellule horaire -->
-            <td class="fw-semibold text-nowrap bg-light">
-              <?= $debut ?><br><small><?= $fin ?></small>
+            <td class="fw-semibold text-nowrap edt-horaire-cell">
+              <?= $debut ?><br><small class="text-muted"><?= $fin ?></small>
             </td>
 
             <!-- Cellules jours -->
             <?php foreach ($jours as $jour): ?>
-              <td class="p-1 align-top" style="min-height:90px; min-width:130px;">
+              <td class="p-1 align-top edt-day-cell">
                 <?php
                   $cellules = $grille[$jour][$debut] ?? [];
                   foreach ($cellules as $cr):
                 ?>
                   <div onclick="window.location.href='/edt/edit/<?= $cr['id'] ?>'"
-                    class="card border mb-1 shadow-sm position-relative"
-                    style="cursor:pointer; transition:0.2s;"
-                    onmouseover="this.style.transform='scale(1.02)'"
-                    onmouseout="this.style.transform='scale(1)'">
+                       class="edt-card position-relative"
+                       onmouseover="this.classList.add('edt-card-hover')"
+                       onmouseout="this.classList.remove('edt-card-hover')">
 
-                  <?php if ($isAdmin): ?>
-                    <a href="/edt/delete/<?= $cr['id'] ?>"
-                      class="position-absolute top-0 end-0 m-1 text-danger"
-                      style="font-size: 0.8rem;"
-                      onclick="event.stopPropagation(); event.preventDefault(); if(confirm('Supprimer ce créneau ?')) window.location.href=this.href;">
-                      <i class="bi bi-x-circle-fill"></i>
-                    </a>
-                  <?php endif; ?>
-
-                  <div class="card-body p-1 text-start" style="font-size:.78rem">
-                    <strong><?= esc($cr['cours_nom']) ?></strong>
-
-                    <?php if (!empty($cr['cours_code'])): ?>
-                      <span class="badge bg-light text-dark ms-1"><?= esc($cr['cours_code']) ?></span>
+                    <?php if ($isAdmin): ?>
+                      <a href="/edt/delete/<?= $cr['id'] ?>"
+                         class="edt-delete-btn"
+                         onclick="event.stopPropagation(); event.preventDefault(); if(confirm('Supprimer ce créneau ?')) window.location.href=this.href;">
+                        <i class="bi bi-x-circle-fill"></i>
+                      </a>
                     <?php endif; ?>
 
-                    <div class="mt-1">
-                      <i class="bi bi-person-fill me-1"></i>
-                      <?= esc($cr['ens_prenom'] . ' ' . $cr['ens_nom']) ?>
-                    </div>
+                    <div class="edt-card-body">
+                      <div class="edt-cours-nom"><?= esc($cr['cours_nom']) ?></div>
 
-                    <div>
-                      <i class="bi bi-door-closed me-1"></i>
-                      <?= esc($cr['salle_nom']) ?>
+                      <?php if (!empty($cr['cours_code'])): ?>
+                        <span class="edt-code-badge"><?= esc($cr['cours_code']) ?></span>
+                      <?php endif; ?>
+
+                      <div class="edt-meta mt-1">
+                        <i class="bi bi-person-fill me-1"></i>
+                        <span class="edt-enseignant"><?= esc($cr['ens_prenom'] . ' ' . $cr['ens_nom']) ?></span>
+                      </div>
+
+                      <div class="edt-meta">
+                        <i class="bi bi-door-closed me-1"></i>
+                        <span><?= esc($cr['salle_nom']) ?></span>
+                      </div>
                     </div>
                   </div>
-
-                </div>
                 <?php endforeach; ?>
 
                 <!-- Bouton ajout rapide (admin) -->
                 <?php if ($isAdmin && empty($cellules)): ?>
                   <a href="/edt/create?semaine=<?= $semaine ?>&jour=<?= urlencode($jour) ?>&heure_debut=<?= urlencode($debut) ?>&heure_fin=<?= urlencode($fin) ?>"
-                     class="btn btn-outline-light btn-sm w-100 h-100 text-muted opacity-50"
-                     style="min-height:60px; font-size:.75rem">
+                     class="edt-add-btn">
                     <i class="bi bi-plus"></i>
                   </a>
                 <?php endif; ?>
@@ -172,9 +174,10 @@
 
           <!-- Ligne PAUSE après 11H30-13H30 -->
           <?php if ($debut === '11:30'): ?>
-            <tr class="table-warning">
-              <td class="fw-bold text-center" colspan="<?= count($jours) + 1 ?>">
-                PAUSE — 13H30 à 14H00
+            <tr class="edt-pause-row">
+              <td class="edt-pause-horaire fw-bold text-center">13H30<br><small>14H00</small></td>
+              <td class="edt-pause-cell fw-bold text-center" colspan="<?= count($jours) ?>">
+                <i class="bi bi-cup-hot me-2"></i>PAUSE — 13H30 à 14H00
               </td>
             </tr>
           <?php endif; ?>
@@ -186,21 +189,162 @@
 </div>
 
 <style>
-.edt-grid td { vertical-align: top; }
-.btn-xs { font-size: .7rem; line-height: 1.2; }
+/* ═══════════════════════════════════════════════════════
+   EDT — Styles personnalisés
+   ═══════════════════════════════════════════════════════ */
+
+/* En-têtes du tableau : blanc avec texte noir, bordure noire */
+.edt-th {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000 !important;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 8px 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Cellule horaire (colonne gauche) */
+.edt-horaire-cell {
+  background-color: #f8f9fa;
+  border: 2px doublr solid #00af50;
+  font-size: 0.82rem;
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px 4px;
+}
+
+/* Cellules jours */
+.edt-day-cell {
+  min-height: 90px;
+  min-width: 140px;
+  vertical-align: top;
+  border: 4px double solid #00af50;
+}
+
+/* Carte cours */
+.edt-card {
+  background: #fff;
+  border: 4px double solid #00af50;
+  border-left: 3px solid #6c42b3;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+
+.edt-card-hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.edt-card-body {
+  padding: 5px 8px;
+  text-align: left;
+  font-size: 0.76rem;
+}
+
+.edt-cours-nom {
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #1a1a2e;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.edt-code-badge {
+  display: inline-block;
+  background: #e9ecef;
+  color: #495057;
+  font-size: 0.68rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-bottom: 3px;
+}
+
+.edt-meta {
+  font-size: 0.72rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.edt-enseignant {
+  color: #cc0000;
+  font-weight: 600;
+}
+
+/* Bouton supprimer */
+.edt-delete-btn {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  font-size: 0.78rem;
+  color: #dc3545;
+  text-decoration: none;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.edt-delete-btn:hover { opacity: 1; }
+
+/* Bouton ajout rapide */
+.edt-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 60px;
+  color: #adb5bd;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border: 1px dashed #dee2e6;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.edt-add-btn:hover {
+  color: #6c42b3;
+  border-color: #6c42b3;
+  background: #f8f4ff;
+}
+
+/* Ligne PAUSE */
+.edt-pause-row td {
+  border: 1px solid #7B2D8B;
+}
+.edt-pause-horaire {
+  background-color: #b8cfe8 !important;
+  font-size: 0.78rem;
+  vertical-align: middle;
+}
+.edt-pause-cell {
+  background-color: #b8cfe8 !important;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #1a1a2e;
+  padding: 10px;
+}
+
+/* Tableau global */
+.edt-grid {
+  border: 2px solid #000;
+}
+.edt-grid td, .edt-grid th {
+  vertical-align: top;
+}
 </style>
 
 <script>
 function allerSemaine(weekValue) {
-    if (!weekValue) return;
-    // weekValue = "2026-W18" → convertir en lundi
-    const [year, week] = weekValue.split('-W');
-    const jan4 = new Date(year, 0, 4);
-    const dayOfWeek = jan4.getDay() || 7;
-    const lundi = new Date(jan4);
-    lundi.setDate(jan4.getDate() - dayOfWeek + 1 + (week - 1) * 7);
-    const iso = lundi.toISOString().split('T')[0];
-    window.location = '/edt/semaine/' + iso;
+  if (!weekValue) return;
+  const [year, week] = weekValue.split('-W');
+  const jan4 = new Date(year, 0, 4);
+  const dayOfWeek = jan4.getDay() || 7;
+  const lundi = new Date(jan4);
+  lundi.setDate(jan4.getDate() - dayOfWeek + 1 + (week - 1) * 7);
+  const iso = lundi.toISOString().split('T')[0];
+  window.location = '/edt/semaine/' + iso;
 }
 </script>
 
